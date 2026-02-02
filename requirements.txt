@@ -1,0 +1,12 @@
+# 跨境支付费率分析系统 - 依赖包
+# 使用命令安装: pip install -r requirements.txt
+
+# 数据处理库
+pandas>=2.0.0          # 数据分析和处理
+
+# 可视化库
+matplotlib>=3.7.0      # 基础图表绑定
+seaborn>=0.12.0        # 统计图表美化
+
+# Excel操作库
+openpyxl>=3.1.0        # Excel文件读写
