@@ -39,20 +39,37 @@ from _02_utils import ensure_directory_exists
 def setup_chinese_font():
     """
     设置中文字体
-    
+
     【matplotlib中文显示问题】
     matplotlib默认不支持中文，需要手动设置字体
     Windows系统可以使用SimHei（黑体）
+
+    【字体回退机制】
+    按优先级尝试多个中文字体，如果都不可用则打印警告
     """
-    # 方法1：设置全局字体
-    plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'Arial Unicode MS']
-    
+    # 候选中文字体列表（按优先级排列）
+    candidate_fonts = ['SimHei', 'Microsoft YaHei', 'Arial Unicode MS']
+
+    # 获取系统中已安装的字体名称
+    available_font_names = {f.name for f in fm.fontManager.ttflist}
+
+    # 检查哪些候选字体可用
+    usable_fonts = [f for f in candidate_fonts if f in available_font_names]
+
+    if usable_fonts:
+        plt.rcParams['font.sans-serif'] = usable_fonts
+    else:
+        # 所有候选字体都不可用，使用默认字体并警告
+        print("  ⚠ 警告：未找到中文字体（SimHei/Microsoft YaHei/Arial Unicode MS）")
+        print("    图表中的中文可能显示为方块，请安装中文字体后重试")
+        plt.rcParams['font.sans-serif'] = candidate_fonts  # 仍然设置，让matplotlib尝试
+
     # 解决负号显示问题
     plt.rcParams['axes.unicode_minus'] = False
-    
+
     # 设置默认图表大小
     plt.rcParams['figure.figsize'] = CHART_CONFIG.get('figure_size', (12, 8))
-    
+
     # 设置DPI
     plt.rcParams['figure.dpi'] = CHART_CONFIG.get('dpi', 100)
 

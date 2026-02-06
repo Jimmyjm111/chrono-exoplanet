@@ -29,6 +29,7 @@ from _01_config import (
     AMOUNT_RANGES,
     EXCHANGE_RATES,
     DEFAULT_TRANSACTION_COUNT,
+    TRANSACTION_STATUS_WEIGHTS,
 )
 from _05_models import Transaction, create_channel_from_config
 
@@ -287,10 +288,10 @@ def generate_single_transaction(
     transaction.set_converted_amount(exchange_rate)
     
     # 随机设置交易状态
-    # 大部分交易应该是成功的
-    status_weights = [0.85, 0.10, 0.05]  # completed, pending, failed的概率
-    statuses = ["completed", "pending", "failed"]
-    transaction.status = random.choices(statuses, weights=status_weights)[0]
+    # 使用配置文件中定义的状态权重
+    statuses = list(TRANSACTION_STATUS_WEIGHTS.keys())
+    weights = list(TRANSACTION_STATUS_WEIGHTS.values())
+    transaction.status = random.choices(statuses, weights=weights)[0]
     
     return transaction
 

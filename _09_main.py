@@ -334,11 +334,19 @@ def interactive_mode():
             # 费率查询
             amount = input("请输入交易金额: ").strip()
             currency = input("请输入货币 (USD/EUR/GBP等): ").strip().upper()
-            
+
+            if not amount or not currency:
+                print("  错误：金额和货币均不能为空")
+                continue
+
             try:
                 amount = float(amount)
+                if amount <= 0:
+                    print("  错误：交易金额必须大于0")
+                    continue
+
                 result = find_cheapest_channel(amount, currency)
-                
+
                 if result:
                     print(f"\n  推荐通道: {result['channel_name']}")
                     print(f"  预估费率: {result['avg_fee_rate']:.2%}")

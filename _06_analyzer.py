@@ -243,7 +243,7 @@ def analyze_by_channel(df: pd.DataFrame) -> pd.DataFrame:
     )
     
     # 计算平均费率
-    summary['avg_fee_rate'] = summary['fee_sum'] / summary['amount_sum']
+    summary['avg_fee_rate'] = summary['fee_sum'] / summary['amount_sum'].replace(0, float('nan'))
     
     # 重置索引，将channel_id从索引变为普通列
     summary = summary.reset_index()
@@ -339,7 +339,7 @@ def create_fee_rate_matrix(df: pd.DataFrame) -> pd.DataFrame:
     """
     # 先计算费率
     df_with_rate = df.copy()
-    df_with_rate['fee_rate_calc'] = df_with_rate['fee'] / df_with_rate['amount']
+    df_with_rate['fee_rate_calc'] = df_with_rate['fee'] / df_with_rate['amount'].replace(0, float('nan'))
     
     pivot = pd.pivot_table(
         df_with_rate,

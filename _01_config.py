@@ -58,6 +58,14 @@ SUPPORTED_CURRENCIES = [
     "PHP",  # 菲律宾比索
 ]
 
+# 交易状态权重（用于生成模拟数据）
+# 大部分交易是成功的，少量处于pending或failed状态
+TRANSACTION_STATUS_WEIGHTS = {
+    "completed": 0.85,  # 成功
+    "pending": 0.10,    # 处理中
+    "failed": 0.05,     # 失败
+}
+
 # 交易金额区间（用于生成模拟数据）
 # 这是一个包含元组(tuple)的列表
 # 元组用圆括号()定义，一旦创建就不能修改
